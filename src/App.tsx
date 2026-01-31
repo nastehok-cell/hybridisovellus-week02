@@ -14,6 +14,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/single" element={<Single />} />
+          <Route path="/upload" element={<Upload/>}/>
         </Route>
       </Routes>
     </Router>
