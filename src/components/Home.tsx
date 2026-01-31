@@ -1,5 +1,8 @@
-import type{ MediaItem } from 'hybrid-types/DBTypes';
+// Home.tsx
+import type { MediaItem } from 'hybrid-types/DBTypes';
+import { useState } from 'react';
 import MediaRow from './MediaRow';
+import SingleView from './SingleView';
 
 const mediaArray: MediaItem[] = [
   {
@@ -42,9 +45,20 @@ const mediaArray: MediaItem[] = [
 ];
 
 const Home = () => {
+  const [selectedItem, setSelectedItem] =
+    useState<MediaItem | undefined>();
+
   return (
     <>
       <h2>My Media</h2>
+
+      {selectedItem && (
+        <SingleView
+          item={selectedItem}
+          setSelectedItem={setSelectedItem}
+        />
+      )}
+
       <table>
         <thead>
           <tr>
@@ -54,11 +68,16 @@ const Home = () => {
             <th>Created</th>
             <th>Size</th>
             <th>Type</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {mediaArray.map((item) => (
-            <MediaRow key={item.media_id} item={item} />
+            <MediaRow
+              key={item.media_id}
+              item={item}
+              setSelectedItem={setSelectedItem}
+            />
           ))}
         </tbody>
       </table>
