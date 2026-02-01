@@ -3,6 +3,7 @@ import type { MediaItem } from 'hybrid-types/DBTypes';
 import type { MediaItemWithOwner } from '../types/MediaTypes';
 import { fetchData } from './fetchData';
 import type { Credentials } from '../types/LocalTypes';
+import type { UploadResponse, MediaInput } from '../types/MediaTypes';
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState<MediaItemWithOwner[]>([]);
@@ -18,7 +19,6 @@ const useMedia = () => {
           const user = await fetchData<{ username: string }>(
             import.meta.env.VITE_AUTH_API + '/users/' + item.user_id
           );
-
           return { ...item, username: user.username };
         })
       );
@@ -33,7 +33,24 @@ const useMedia = () => {
     getMedia();
   }, []);
 
-  return { mediaArray };
+  const postMedia = async (
+    inputs: MediaInput,
+    token: string
+  ): Promise<MediaItem> => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(inputs),
+    };
+
+    return await fetchData('https://media2.edu.metropolia.fi/upload-api/uploads', options);
+
+  };
+
+  return { mediaArray, postMedia };
 };
 
 const useAuthentication = () => {
@@ -46,17 +63,14 @@ const useAuthentication = () => {
       body: JSON.stringify(inputs),
     };
 
-    const loginResult = await fetchData<{ token: string }>(
+    return await fetchData<{ token: string }>(
       import.meta.env.VITE_AUTH_API + '/auth/login',
       fetchOptions
     );
-
-    return loginResult;
   };
 
   return { postLogin };
 };
-
 
 const useUser = () => {
   const getUserByToken = async (token: string) => {
@@ -65,11 +79,7 @@ const useUser = () => {
         Authorization: 'Bearer ' + token,
       },
     };
-
-    return await fetchData(
-      import.meta.env.VITE_AUTH_API + '/users/token',
-      options
-    );
+    return await fetchData(import.meta.env.VITE_AUTH_API + '/users/token', options);
   };
 
   const postRegister = async (inputs: Record<string, string>) => {
@@ -81,13 +91,29 @@ const useUser = () => {
       body: JSON.stringify(inputs),
     };
 
-    return await fetchData(
-      import.meta.env.VITE_AUTH_API + '/users',
-      options
-    );
+    return await fetchData(import.meta.env.VITE_AUTH_API + '/users', options);
   };
 
   return { getUserByToken, postRegister };
 };
 
-export { useMedia, useAuthentication, useUser };
+const useFile = () => {
+  const postFile = async (file: File, token: string): Promise<UploadResponse> => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    };
+
+    return await fetchData(import.meta.env.VITE_UPLOAD_SERVER + '/uploads', options);
+  };
+
+  return { postFile };
+};
+
+export { useMedia, useAuthentication, useUser, useFile };
