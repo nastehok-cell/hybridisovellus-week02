@@ -34,21 +34,20 @@ const useMedia = () => {
   }, []);
 
   const postMedia = async (
-    inputs: MediaInput,
-    token: string
-  ): Promise<MediaItem> => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-      body: JSON.stringify(inputs),
-    };
-
-    return await fetchData('https://media2.edu.metropolia.fi/upload-api/uploads', options);
-
+  inputs: MediaInput,
+  token: string
+): Promise<MediaItem> => {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+    body: JSON.stringify(inputs),
   };
+
+  return await fetchData<MediaItem>(import.meta.env.VITE_MEDIA_API + '/media', options);
+};
 
   return { mediaArray, postMedia };
 };
@@ -110,10 +109,11 @@ const useFile = () => {
       body: formData,
     };
 
-    return await fetchData(import.meta.env.VITE_UPLOAD_SERVER + '/uploads', options);
+    return await fetchData<UploadResponse>(import.meta.env.VITE_UPLOAD_SERVER + '/upload', options);
   };
 
   return { postFile };
 };
 
 export { useMedia, useAuthentication, useUser, useFile };
+

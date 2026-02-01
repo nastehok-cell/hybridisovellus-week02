@@ -22,12 +22,13 @@ const Upload = () => {
     try {
       const token = localStorage.getItem('token') || '';
       const uploadedFile = await postFile(file, token);
+      console.log('uploadedFile:', JSON.stringify(uploadedFile));
       const mediaInputs = {
         title: inputs.title,
         description: inputs.description,
-        filename: uploadedFile.filename,
-        originalname: uploadedFile.originalname,
-        filetype: uploadedFile.filetype,
+        filename: uploadedFile.data.filename,
+        media_type: uploadedFile.data.media_type,
+        filesize: uploadedFile.data.filesize,
       };
       await postMedia(mediaInputs, token);
       navigate('/');
