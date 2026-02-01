@@ -12,6 +12,7 @@ Open [Hybrid React App](https://users.metropolia.fi/~nastehok/hybrid-react-build
 
 Open [Hooks App](https://users.metropolia.fi/~nastehok/hooks/) to view it in the browser.
 
+Open [Forms](http://users.metropolia.fi/~nastehok/forms) to view it in the browser.
 
 
 ## React Compiler
