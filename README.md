@@ -10,6 +10,9 @@ Currently, two official plugins are available:
 Live app:  
 Open [Hybrid React App](https://users.metropolia.fi/~nastehok/hybrid-react-build/) to view it in the browser.
 
+Open [Hooks App](https://users.metropolia.fi/~nastehok/hooks/) to view it in the browser.
+
+
 
 ## React Compiler
 
