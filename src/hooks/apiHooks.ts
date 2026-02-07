@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { MediaItem } from 'hybrid-types/DBTypes';
+import type { MediaItem, UserWithNoPassword } from 'hybrid-types/DBTypes';
 import type { MediaItemWithOwner } from '../types/MediaTypes';
 import { fetchData } from './fetchData';
-import type { Credentials } from '../types/LocalTypes';
+import type { Credentials, LoginResponse } from '../types/LocalTypes';
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState<MediaItemWithOwner[]>([]);
@@ -46,7 +46,7 @@ const useAuthentication = () => {
       body: JSON.stringify(inputs),
     };
 
-    const loginResult = await fetchData<{ token: string }>(
+    const loginResult = await fetchData<LoginResponse>(
       import.meta.env.VITE_AUTH_API + '/auth/login',
       fetchOptions
     );
@@ -57,35 +57,31 @@ const useAuthentication = () => {
   return { postLogin };
 };
 
-
 const useUser = () => {
-  const getUserByToken = async (token: string) => {
-    const options = {
+  const getUserByToken = async (): Promise<UserWithNoPassword | null> => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    const options: RequestInit = {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: `Bearer ${token}`,
       },
     };
 
-    return await fetchData(
+    return await fetchData<UserWithNoPassword>(
       import.meta.env.VITE_AUTH_API + '/users/token',
       options
     );
   };
 
   const postRegister = async (inputs: Record<string, string>) => {
-    const options = {
+    const options: RequestInit = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(inputs),
     };
-
-    return await fetchData(
-      import.meta.env.VITE_AUTH_API + '/users',
-      options
-    );
-  };
+    return await fetchData(import.meta.env.VITE_AUTH_API + '/users', options);
+};
 
   return { getUserByToken, postRegister };
 };
