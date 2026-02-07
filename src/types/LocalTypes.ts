@@ -5,7 +5,7 @@ type Credentials = Pick<User, 'username' | 'password'>;
 export type LoginResponse = {
     message: string;
     token: string;
-    user: UserWithNoPassword;  
+    user: UserWithNoPassword;
 };
 
 export type AuthContextType = {
