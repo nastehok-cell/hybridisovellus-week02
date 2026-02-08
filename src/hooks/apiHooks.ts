@@ -18,7 +18,6 @@ const useMedia = () => {
           const user = await fetchData<{ username: string }>(
             import.meta.env.VITE_AUTH_API + '/users/' + item.user_id
           );
-
           return { ...item, username: user.username };
         })
       );
@@ -74,12 +73,10 @@ const useAuthentication = () => {
       body: JSON.stringify(inputs),
     };
 
-    const loginResult = await fetchData<{ token: string }>(
+    return await fetchData<{ token: string }>(
       import.meta.env.VITE_AUTH_API + '/auth/login',
       fetchOptions
     );
-
-    return loginResult;
   };
 
   return { postLogin };
