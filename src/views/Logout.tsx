@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
-import { useUserContext } from '../hooks/ContextHooks';
+import { useNavigate } from 'react-router';
 
 const Logout = () => {
-  const { handleLogout } = useUserContext();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    handleLogout();
-  }, []);
+  const doLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
 
   return (
-    <div>
-      <h1>Logged Out</h1>
-      <p>You have been successfully logged out.</p>
-    </div>
+    <>
+      <h1>Logout</h1>
+      <button onClick={doLogout}>Logout</button>
+    </>
   );
 };
 
