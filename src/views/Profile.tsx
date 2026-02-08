@@ -1,7 +1,7 @@
 import { useUserContext } from '../hooks/ContextHooks';
 
 const Profile = () => {
-  const { user } = useUserContext();
+    const { user } = useUserContext();
 
   if (!user) return <p>Loading...</p>;
 
