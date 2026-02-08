@@ -1,19 +1,15 @@
-import { useNavigate } from 'react-router';
+import {useUserContext} from '../hooks/ContextHooks';
 
 const Logout = () => {
-  const navigate = useNavigate();
-
-  const doLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-  };
+  const {handleLogout} = useUserContext();
 
   return (
     <>
       <h1>Logout</h1>
-      <button onClick={doLogout}>Logout</button>
+      <button onClick={handleLogout}>Logout</button>
     </>
   );
 };
 
 export default Logout;
+

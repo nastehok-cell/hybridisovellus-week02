@@ -73,18 +73,18 @@ const useAuthentication = () => {
       body: JSON.stringify(inputs),
     };
 
-    return await fetchData<{ token: string }>(
-      import.meta.env.VITE_AUTH_API + '/auth/login',
-      fetchOptions
-    );
+    return await fetchData<{ token: string; user: UserWithNoPassword }>(
+  import.meta.env.VITE_AUTH_API + '/auth/login',
+  fetchOptions
+);
+
   };
 
   return { postLogin };
 };
 
 const useUser = () => {
-  const getUserByToken = async (): Promise<UserWithNoPassword | null> => {
-    const token = localStorage.getItem('token');
+  const getUserByToken = async (token: string): Promise<UserWithNoPassword | null> => {
     if (!token) return null;
 
     const options: RequestInit = {

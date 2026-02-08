@@ -1,11 +1,9 @@
 import useForm from '../hooks/formHooks';
-import type { Credentials } from '../types/LocalTypes';
-import { useAuthentication } from '../hooks/apiHooks';
-import { useNavigate } from 'react-router';
+import type {Credentials} from '../types/LocalTypes';
+import {useUserContext} from '../hooks/ContextHooks';
 
 const LoginForm = () => {
-  const { postLogin } = useAuthentication();
-  const navigate = useNavigate();
+  const {handleLogin} = useUserContext();
 
   const initValues: Credentials = {
     username: '',
@@ -13,17 +11,10 @@ const LoginForm = () => {
   };
 
   const doLogin = async () => {
-    try {
-      const result = await postLogin(inputs as Credentials);
-      console.log(result);
-      localStorage.setItem('token', result.token);
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-    }
+    handleLogin(inputs as Credentials);
   };
 
-  const { inputs, handleInputChange, handleSubmit } =
+  const {inputs, handleInputChange, handleSubmit} =
     useForm(doLogin, initValues);
 
   return (
@@ -37,7 +28,6 @@ const LoginForm = () => {
             type="text"
             id="loginusername"
             onChange={handleInputChange}
-            autoComplete="username"
           />
         </div>
         <div>
@@ -47,7 +37,6 @@ const LoginForm = () => {
             type="password"
             id="loginpassword"
             onChange={handleInputChange}
-            autoComplete="current-password"
           />
         </div>
         <button type="submit">Login</button>
