@@ -16,6 +16,8 @@ Open [custom-hooks](http://users.metropolia.fi/~nastehok/custom-hooks) to view i
 
 Open [Forms](http://users.metropolia.fi/~nastehok/forms) to view it in the browser.
 
+Open [upload](http://users.metropolia.fi/~nastehok/upload) to view it in the browser.
+
 
 ## React Compiler
 
