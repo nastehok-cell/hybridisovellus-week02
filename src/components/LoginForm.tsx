@@ -1,9 +1,11 @@
 import useForm from '../hooks/formHooks';
 import type { Credentials } from '../types/LocalTypes';
-import { useUserContext } from '../hooks/ContextHooks';
+import { useAuthentication } from '../hooks/apiHooks';
+import { useNavigate } from 'react-router';
 
 const LoginForm = () => {
-  const { handleLogin } = useUserContext();
+  const { postLogin } = useAuthentication();
+  const navigate = useNavigate();
 
   const initValues: Credentials = {
     username: '',
@@ -11,16 +13,18 @@ const LoginForm = () => {
   };
 
   const doLogin = async () => {
-    console.log('Submitting login:', inputs);
-    await handleLogin(inputs as Credentials);
+    try {
+      const result = await postLogin(inputs as Credentials);
+      console.log(result);
+      localStorage.setItem('token', result.token);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-
 
   const { inputs, handleInputChange, handleSubmit } =
     useForm(doLogin, initValues);
-
-  console.log(inputs);
 
   return (
     <>

@@ -19,16 +19,24 @@ const RegisterForm = () => {
     useForm(doRegister, initValues);
 
   return (
-    <>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
+  <>
+    <h1>Register</h1>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Username</label>
         <input name="username" onChange={handleInputChange} />
+      </div>
+      <div>
+        <label>Password</label>
         <input name="password" type="password" onChange={handleInputChange} />
+      </div>
+      <div>
+        <label>Email</label>
         <input name="email" type="email" onChange={handleInputChange} />
-        <button type="submit">Register</button>
-      </form>
-    </>
-  );
-};
-
+      </div>
+      <button type="submit">Register</button>
+    </form>
+  </>
+);
+}
 export default RegisterForm;

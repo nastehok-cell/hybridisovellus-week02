@@ -1,9 +1,19 @@
-import { useUserContext } from '../hooks/ContextHooks';
+import { useEffect, useState } from 'react';
+import { useUser } from '../hooks/apiHooks';
+import type { UserWithNoPassword } from 'hybrid-types/DBTypes';
 
 const Profile = () => {
-  const { user } = useUserContext();
+  const [user, setUser] = useState<UserWithNoPassword | null>(null);
+  const { getUserByToken } = useUser();
 
-  console.log('Profile user:', user);
+  useEffect(() => {
+  const fetchUser = async () => {
+    const userData = await getUserByToken();
+    console.log('Profile userData:', userData);
+    setUser(userData);
+  };
+  fetchUser();
+}, []);
 
   if (!user) return <p>Loading...</p>;
 

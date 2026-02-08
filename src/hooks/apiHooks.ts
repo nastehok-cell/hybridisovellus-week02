@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { MediaItem, UserWithNoPassword } from 'hybrid-types/DBTypes';
 import type { MediaItemWithOwner } from '../types/MediaTypes';
 import { fetchData } from './fetchData';
-import type { Credentials, LoginResponse } from '../types/LocalTypes';
+import type { Credentials } from '../types/LocalTypes';
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState<MediaItemWithOwner[]>([]);
@@ -46,10 +46,10 @@ const useAuthentication = () => {
       body: JSON.stringify(inputs),
     };
 
-    const loginResult = await fetchData<LoginResponse>(
+    const loginResult = await fetchData<{ token: string }>(
       import.meta.env.VITE_AUTH_API + '/auth/login',
       fetchOptions
-    );
+);
 
     return loginResult;
   };
@@ -59,20 +59,23 @@ const useAuthentication = () => {
 
 const useUser = () => {
   const getUserByToken = async (): Promise<UserWithNoPassword | null> => {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
+  const token = localStorage.getItem('token');
+  if (!token) return null;
 
-    const options: RequestInit = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    return await fetchData<UserWithNoPassword>(
-      import.meta.env.VITE_AUTH_API + '/users/token',
-      options
-    );
+  const options: RequestInit = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   };
+
+  const result = await fetchData<{ user: UserWithNoPassword }>(
+    import.meta.env.VITE_AUTH_API + '/users/token',
+    options
+  );
+
+  console.log('getUserByToken result:', result); 
+  return result.user; 
+};
 
   const postRegister = async (inputs: Record<string, string>) => {
     const options: RequestInit = {
