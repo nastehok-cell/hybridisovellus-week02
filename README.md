@@ -20,6 +20,8 @@ Open [upload](http://users.metropolia.fi/~nastehok/upload) to view it in the bro
 
 Open [context](http://users.metropolia.fi/~nastehok/context) to view it in the browser.
 
+Open [likes](http://users.metropolia.fi/~nastehok/likes) to view it in the browser.
+
 
 ## React Compiler
 

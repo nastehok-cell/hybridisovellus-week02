@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router';
 import type { MediaItemWithOwner } from '../types/MediaTypes';
+import Likes from '../components/Likes'; 
 
 const Single = () => {
   const { state } = useLocation();
@@ -18,6 +19,8 @@ const Single = () => {
       ) : (
         <video src={item.filename} controls />
       )}
+
+      <Likes item={item} />
 
       <button onClick={() => navigate(-1)}>Go back</button>
     </div>
