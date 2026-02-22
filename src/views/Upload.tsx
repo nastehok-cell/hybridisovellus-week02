@@ -11,10 +11,7 @@ const Upload = () => {
   const { postFile } = useFile();
   const { postMedia } = useMedia();
 
-  const initValues = {
-    title: '',
-    description: '',
-  };
+  const initValues = { title: '', description: '' };
 
   const doUpload = async () => {
     if (!file) return;
@@ -34,35 +31,35 @@ const Upload = () => {
   const { inputs, handleInputChange, handleSubmit } = useForm(doUpload, initValues);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
+    if (e.target.files) setFile(e.target.files[0]);
   };
 
   return (
     <>
       <h1>Upload</h1>
       {uploading && <p>Uploading...</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center">
+        <div className="flex flex-col w-4/5">
           <label htmlFor="title">Title</label>
           <input
             name="title"
             type="text"
             id="title"
             onChange={handleInputChange}
+            className="my-[10px] p-[10px] border border-[#ccc] rounded-[5px]"
           />
         </div>
-        <div>
-          <label htmlFor="description">Description/</label>
+        <div className="flex flex-col w-4/5">
+          <label htmlFor="description">Description</label>
           <textarea
             name="description"
             rows={5}
             id="description"
             onChange={handleInputChange}
+            className="my-[10px] p-[10px] border border-[#ccc] rounded-[5px]"
           ></textarea>
         </div>
-        <div>
+        <div className="flex flex-col w-4/5">
           <label htmlFor="file">File</label>
           <input
             name="file"
@@ -70,20 +67,18 @@ const Upload = () => {
             id="file"
             accept="image/*, video/*"
             onChange={handleFileChange}
+            className="my-[10px]"
           />
         </div>
         <img
-          src={
-            file
-              ? URL.createObjectURL(file)
-              : 'https://placehold.co/320x240?text=Choose+image'
-          }
+          src={file ? URL.createObjectURL(file) : 'https://placehold.co/320x240?text=Choose+image'}
           alt="preview"
-          width="200"
+          className="w-[200px] h-[200px] object-cover rounded-[5px] my-[10px]"
         />
         <button
           type="submit"
           disabled={file && inputs.title.length > 3 ? false : true}
+          className="my-[10px] p-[10px] rounded-[5px] bg-[#363636] text-white border-none cursor-pointer hover:bg-[#111111] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Upload
         </button>

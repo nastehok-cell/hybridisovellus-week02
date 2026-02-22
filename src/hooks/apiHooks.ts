@@ -74,10 +74,9 @@ const useAuthentication = () => {
     };
 
     return await fetchData<{ token: string; user: UserWithNoPassword }>(
-  import.meta.env.VITE_AUTH_API + '/auth/login',
-  fetchOptions
-);
-
+      import.meta.env.VITE_AUTH_API + '/auth/login',
+      fetchOptions
+    );
   };
 
   return { postLogin };
@@ -110,7 +109,19 @@ const useUser = () => {
     return await fetchData(import.meta.env.VITE_AUTH_API + '/users', options);
   };
 
-  return { getUserByToken, postRegister };
+  const getUsernameAvailable = async (username: string) => {
+    const response = await fetch(import.meta.env.VITE_AUTH_API + `/users/username/${username}`);
+    const data = await response.json();
+    return data.available;
+  };
+
+  const getEmailAvailable = async (email: string) => {
+    const response = await fetch(import.meta.env.VITE_AUTH_API + `/users/email/${email}`);
+    const data = await response.json();
+    return data.available;
+  };
+
+  return { getUserByToken, postRegister, getUsernameAvailable, getEmailAvailable };
 };
 
 const useFile = () => {
@@ -175,4 +186,3 @@ const useLike = () => {
 };
 
 export { useMedia, useAuthentication, useUser, useFile, useLike };
- 

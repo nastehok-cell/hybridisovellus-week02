@@ -25,30 +25,32 @@ const MediaRow = (props: { item: MediaItemWithOwner }) => {
       <td className="p-4">{item.filesize}</td>
       <td className="p-4">{item.media_type}</td>
       <td className="p-4">{item.username}</td>
-      <td className="p-4 flex gap-2">
-        <Link
-          to="/single"
-          state={{ item }}
-          className="bg-[#363636] text-white px-2 py-1 hover:bg-[#111111] no-underline"
-        >
-          Show
-        </Link>
-        {canEdit && (
-          <>
-            <button
-              className="bg-[#363636] text-white px-2 py-1 hover:bg-[#111111]"
-              onClick={() => console.log('modify', item)}
-            >
-              Modify
-            </button>
-            <button
-              className="bg-[#363636] text-white px-2 py-1 hover:bg-[#111111]"
-              onClick={() => console.log('delete', item)}
-            >
-              Delete
-            </button>
-          </>
-        )}
+      <td className="p-4">
+        <div className="flex gap-2">
+          <Link
+            to="/single"
+            state={{ item }}
+            className="text-white no-underline bg-[#363636] border-none p-2 hover:bg-[#111111]"
+          >
+            Show
+          </Link>
+          {canEdit && (
+            <>
+              <button
+                className="bg-[#363636] text-white border-none p-2 cursor-pointer hover:bg-[#111111]"
+                onClick={() => console.log('modify', item)}
+              >
+                Modify
+              </button>
+              <button
+                className="bg-[#363636] text-white border-none p-2 cursor-pointer hover:bg-[#111111]"
+                onClick={() => console.log('delete', item)}
+              >
+                Delete
+              </button>
+            </>
+          )}
+        </div>
       </td>
     </tr>
   );

@@ -22,6 +22,8 @@ Open [context](http://users.metropolia.fi/~nastehok/context) to view it in the b
 
 Open [likes](http://users.metropolia.fi/~nastehok/likes) to view it in the browser.
 
+Open [tailwind](http://users.metropolia.fi/~nastehok/tailwind) to view it in the browser.
+
 
 ## React Compiler
 
