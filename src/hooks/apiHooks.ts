@@ -185,4 +185,45 @@ const useLike = () => {
   return { postLike, deleteLike, getCountByMediaId, getUserLike };
 };
 
-export { useMedia, useAuthentication, useUser, useFile, useLike };
+const useComment = () => {
+  const postComment = async (
+    comment_text: string,
+    media_id: number,
+    token: string
+  ) => {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ comment_text, media_id }),
+    };
+    return await fetchData(import.meta.env.VITE_MEDIA_API + '/comments', options);
+  };
+
+  const getCommentsByMediaId = async (media_id: number) => {
+    const comments = await fetchData<(Comment & { user_id: number })[]>(
+      import.meta.env.VITE_MEDIA_API + `/comments/bymedia/${media_id}`
+    );
+
+    const commentsWithUsernames = await Promise.all(
+      comments.map(async (comment) => {
+        try {
+          const user = await fetchData<{ username: string }>(
+            import.meta.env.VITE_AUTH_API + '/users/' + comment.user_id
+          );
+          return { ...comment, username: user.username };
+        } catch {
+          return { ...comment, username: 'Unknown' };
+        }
+      })
+    );
+
+    return commentsWithUsernames;
+  };
+
+  return { postComment, getCommentsByMediaId };
+};
+
+export { useMedia, useAuthentication, useUser, useFile, useLike, useComment };

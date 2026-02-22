@@ -9,6 +9,6 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: '/~nastehok/tailwind/'
+  base: '/~nastehok/zustand/'
 });
 

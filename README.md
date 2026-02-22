@@ -24,6 +24,8 @@ Open [likes](http://users.metropolia.fi/~nastehok/likes) to view it in the brows
 
 Open [tailwind](http://users.metropolia.fi/~nastehok/tailwind) to view it in the browser.
 
+Open [zustand](http://users.metropolia.fi/~nastehok/zustand) to view it in the browser.
+
 
 ## React Compiler
 
